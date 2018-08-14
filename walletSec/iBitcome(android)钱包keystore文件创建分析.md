@@ -152,12 +152,12 @@
 ```
 String v10 = v.d(v9, this.val$password);
 ```
-这里v9就是生成的ECKeyPair对象转换的string，password即是输入的授权密码，继续往下走v.d函数有一行是：
+这里v9就是生成的ECKeyPair对象转换的私钥String对象，password即是输入的授权密码，继续往下走v.d函数有一行是：
 
 ```
 arg1 = ObjectMapperFactory.getObjectMapper().writeValueAsString(HDKeystore.createStandard(arg2, arg1));
 ```
-这里调用了com.winway.bitcome.util.hd.HDKeystore的createStandard方法。createStandard方法的入参是反过来的，arg2是授权密码，arg1是string对象。
+这里调用了com.winway.bitcome.util.hd.HDKeystore的createStandard方法。createStandard方法的入参是反过来的，arg2是授权密码，arg1是私钥String对象。
 createStandard方法定义如下：
 ```
 
@@ -165,7 +165,7 @@ public static HDKeystoreFile createStandard(String arg2, String arg3) {
       return HDKeystore.create(arg2, arg3, 262144, 1);
   }
 ```
-从上面代码可以看到实际调用了HDKeystore.create方法，这里有四个入参数，arg2为收入的授权密码，args3为ECKeyPair转换的对象，后面两个参数为262144和1，对照上一章节，即可以得出这里的第三个参数为n=262144，第四个参数为p=1。
+从上面代码可以看到实际调用了HDKeystore.create方法，这里有四个入参数，arg2为收入的授权密码，args3为ECKeyPair转换的私钥String对象，后面两个参数为262144和1，对照上一章节，即可以得出这里的第三个参数为n=262144，第四个参数为p=1。
 
 
 继续查看create函数，代码如下所示：
@@ -272,7 +272,7 @@ private static byte[] performCipherOperation(int arg3, byte[] arg4, byte[] arg5,
 
 ```
 
-从上面代码可以看到performCipherOperation方法的第一个参数1即为加密模式，第二个参数v3即为AES加密算法的输入iv向量，第三个参数v3即为AES加密算法的输入key，arg8为最开始输入的ECKeyPair转换的string对象。从分析来看
+从上面代码可以看到performCipherOperation方法的第一个参数1即为加密模式，第二个参数v3即为AES加密算法的输入iv向量，第三个参数v3即为AES加密算法的输入key，arg8为最开始输入的ECKeyPair转换的私钥String对象。从分析来看：
 
 - 输入密钥长度为16字节即128位。
 - 从填充模式"AES/CTR/NoPadding"可以看到，此AES加密模式位CTR。
@@ -286,7 +286,7 @@ private static byte[] performCipherOperation(int arg3, byte[] arg4, byte[] arg5,
 return HDKeystore.createWalletFile(v1, v3, v0, HDKeystore.generateMac(v7, v1), arg9, arg10);
  
 ```
-generateMac方法有两个参数，分别是前面分析的根据输入的授权密码生成的加解密密钥和经过aes-128-ctr加密过后的ECKeyPair转换的string对象。先看generateMac方法的实现：
+generateMac方法有两个参数，分别是前面分析的根据输入的授权密码生成的加解密密钥和经过aes-128-ctr加密过后的ECKeyPair转换的私钥String对象。先看generateMac方法的实现：
 
 ```
 private static byte[] generateMac(byte[] arg3, byte[] arg4) {
