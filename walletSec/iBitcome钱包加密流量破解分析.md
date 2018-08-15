@@ -416,6 +416,8 @@ public class BurpExtender implements IBurpExtender,IHttpListener{
 
 从上面的实际操作来看，我们需要破解加密后的流量还是比较容易的。并且我们可以用类似的方法破解报文的签名信息等其他操作。
 
+>**iBitcome的IOS版本的二次加密数据破解也是使用这个类似的方法进行操作。**
+
 当然，我们如果需要减轻这种攻击方式，我们可以用一下几点：
 
 - 密钥和加密方式更加复杂来对抗破解；
