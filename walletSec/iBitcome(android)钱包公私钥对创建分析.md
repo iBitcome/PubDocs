@@ -230,7 +230,7 @@ public ECKeyPair(BigInteger priv, boolean compressed) {
 }
 ```
 
-从上面代码可以看到，私钥就是前面所提到的l数组，公钥匙是根据私钥基于椭圆先算法来得到：
+从上面代码可以看到，私钥就是前面所提到的l数组，公钥匙是根据私钥基于椭圆曲线算法来得到：
 
 ```
 ECPoint multiply = CURVE.getG().multiply(priv);
